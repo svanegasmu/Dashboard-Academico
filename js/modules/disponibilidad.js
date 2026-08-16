@@ -1,8 +1,3 @@
-/* =========================================================
-   ACADEMIC HUB
-   DISPONIBILIDAD DINÁMICA
-========================================================= */
-
 
 /* =========================================================
    CONFIGURACIÓN
@@ -1047,27 +1042,6 @@ function formatearFechaISO(
 
     return (
         `${año}-${mes}-${dia}`
-    );
-
-}
-
-
-/* =========================================================
-   OBTENER DISPONIBILIDAD DESDE HOY
-   HASTA UNA FECHA
-========================================================= */
-
-function obtenerDisponibilidadHasta(
-    fechaFin
-) {
-
-    const ahora =
-        new Date();
-
-
-    return obtenerDisponibilidadEfectiva(
-        ahora,
-        fechaFin
     );
 
 }

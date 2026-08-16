@@ -1053,175 +1053,6 @@ function normalizarBloque(
 
 }
 
-
-/* =========================================================
-   GENERAR BLOQUES DESDE HORARIOS RECURRENTES
-   ========================================================= */
-
-function generarBloquesDesdeHorarios(
-    horarios
-) {
-
-    if (
-        !Array.isArray(horarios)
-    ) {
-
-        return [];
-
-    }
-
-
-    const resultado = [];
-
-
-    const mapaDias = {
-
-        lunes: 1,
-        martes: 2,
-        miércoles: 3,
-        miercoles: 3,
-        jueves: 4,
-        viernes: 5,
-        sábado: 6,
-        sabado: 6,
-        domingo: 0
-
-    };
-
-
-    const ahora =
-        new Date();
-
-
-    for (
-        let offset = 0;
-        offset <
-        CONFIG_REPASOS.diasGeneracionHorarios;
-        offset++
-    ) {
-
-        const fecha =
-            new Date(
-                ahora
-            );
-
-
-        fecha.setDate(
-            fecha.getDate() +
-            offset
-        );
-
-
-        const diaSemana =
-            fecha.getDay();
-
-
-        horarios.forEach(
-            horario => {
-
-                if (
-                    !horario ||
-                    typeof horario !== "object"
-                ) {
-
-                    return;
-
-                }
-
-
-                const dia =
-                    normalizarNombreDia(
-                        horario.dia ??
-                        horario.day
-                    );
-
-
-                if (
-                    mapaDias[dia] !==
-                    diaSemana
-                ) {
-
-                    return;
-
-                }
-
-
-                const horaInicio =
-                    horario.horaInicio ??
-                    horario.inicio ??
-                    horario.start;
-
-
-                const horaFin =
-                    horario.horaFin ??
-                    horario.fin ??
-                    horario.end;
-
-
-                const inicio =
-                    construirFechaConHora(
-                        fecha,
-                        horaInicio
-                    );
-
-
-                const fin =
-                    construirFechaConHora(
-                        fecha,
-                        horaFin
-                    );
-
-
-                if (
-                    !inicio ||
-                    !fin ||
-                    fin <= inicio
-                ) {
-
-                    return;
-
-                }
-
-
-                if (
-                    inicio <= ahora
-                ) {
-
-                    return;
-
-                }
-
-
-                resultado.push({
-
-                    id:
-                        generarId(),
-
-                    fechaInicio:
-                        inicio,
-
-                    fechaFin:
-                        fin,
-
-                    tipo:
-                        "recurrente",
-
-                    origen:
-                        "horario"
-
-                });
-
-            }
-        );
-
-    }
-
-
-    return resultado;
-
-}
-
-
 /* =========================================================
    NORMALIZAR NOMBRE DE DÍA
    ========================================================= */
@@ -4277,58 +4108,11 @@ async function marcarRepasoCompletado(
      * para calcular posibles sesiones futuras.
      */
 
-    await generarCronogramaRepasos();
+        await generarCronogramaRepasos(
+        estadoRepasos.actividades
+    );
 
 }
-
-
-/* =========================================================
-   ESCAPE DE TEXTO
-   ========================================================= */
-
-function escaparTexto(
-    texto
-) {
-
-    if (
-        texto === null ||
-        texto === undefined
-    ) {
-
-        return "";
-
-    }
-
-
-    return String(texto)
-
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
-}
-
 
 /* =========================================================
    FUNCIÓN PÚBLICA PARA REGENERAR
@@ -4399,16 +4183,31 @@ async function recalcularCronogramaRepasos() {
                      * No iniciar otra regeneración desde
                      * el debounce para evitar duplicarla.
                      */
+                                        const entregasLocales =
+                        Array.isArray(
+                            estadoRepasos.actividades
+                        ) &&
+                        estadoRepasos.ultimaGeneracion !== null
+                            ? estadoRepasos.actividades
+                            : undefined;
+
+
                     if (
-                        regeneracionRepasosPendiente
+                        Array.isArray(
+                            entregasLocales
+                        )
                     ) {
 
-                        return;
+                        await regenerarRepasosSeguro(
+                            entregasLocales
+                        );
 
                     }
+                    else {
 
+                        await regenerarRepasosSeguro();
 
-                    await regenerarRepasosSeguro();
+                    }
 
                 }
                 finally {
