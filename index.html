@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard Académico | Academic Hub</title>
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/responsive.css">
+
+
+</head>
+
+<body>
+
+<!-- =========================================================
+     BARRA LATERAL / NAVEGACIÓN
+========================================================== -->
+
+<aside class="sidebar">
+
+    <header class="logo section-header">
+        <span aria-hidden="true">🎓</span>
+        <span>Academic Hub</span>
+    </header>
+
+    <nav aria-label="Navegación principal">
+        <ul class="nav-links">
+
+            <li
+                class="nav-item active"
+                data-tab="entregas"
+                role="button"
+                tabindex="0"
+            >
+                <span aria-hidden="true">🚦</span>
+                <span>Entregas y semáforo</span>
+            </li>
+
+            <li
+                class="nav-item"
+                data-tab="nueva-actividad"
+                role="button"
+                tabindex="0"
+            >
+                <span aria-hidden="true">➕</span>
+                <span>Registrar actividad</span>
+            </li>
+
+            <li
+                class="nav-item"
+                data-tab="horario"
+                role="button"
+                tabindex="0"
+            >
+                <span aria-hidden="true">📅</span>
+                <span>Horario y disponibilidad</span>
+            </li>
+
+            <li
+                class="nav-item"
+                data-tab="cronograma-repasos"
+                role="button"
+                tabindex="0"
+            >
+                <span aria-hidden="true">🧠</span>
+                <span>Cronograma de repasos</span>
+            </li>
+
+            <li
+                class="nav-item"
+                data-tab="materias"
+                role="button"
+                tabindex="0"
+            >
+                <span aria-hidden="true">📊</span>
+                <span>Calculadora de notas</span>
+            </li>
+
+            <li
+                class="nav-item"
+                data-tab="profesores"
+                role="button"
+                tabindex="0"
+            >
+                <span aria-hidden="true">👨‍🏫</span>
+                <span>Profesores</span>
+            </li>
+
+        </ul>
+    </nav>
+
+</aside>
+
+
+<!-- =========================================================
+     CONTENIDO PRINCIPAL
+========================================================== -->
+
+<main class="main-content">
+
+
+    <!-- =====================================================
+         1. ENTREGAS Y SEMÁFORO
+    ====================================================== -->
+
+    <section
+        id="entregas"
+        class="section active"
+        aria-labelledby="titulo-entregas"
+    >
+
+        <header class="section-header">
+
+            <h1 id="titulo-entregas">
+                Próximas entregas y Parciales
+            </h1>
+
+            <!-- MÉTRICAS -->
+
+            <section
+                class="metrics-grid"
+                aria-label="Resumen de actividades"
+            >
+
+                <article class="card metric-card">
+                    <h2
+                        id="metric-total"
+                        class="metric-value"
+                    >
+                        0
+                    </h2>
+
+                    <p class="metric-title">
+                        Total Pendientes
+                    </p>
+                </article>
+
+
+                <article class="card metric-card">
+                    <h2
+                        id="metric-urgentes"
+                        class="metric-value metric-urgent"
+                    >
+                        0
+                    </h2>
+
+                    <p class="metric-title">
+                        Urgentes / Hoy
+                    </p>
+                </article>
+
+
+                <article class="card metric-card">
+                    <h2
+                        id="metric-altas"
+                        class="metric-value metric-high"
+                    >
+                        0
+                    </h2>
+
+                    <p class="metric-title">
+                        Prioridad Alta 🔥
+                    </p>
+                </article>
+
+
+                <article class="card metric-card">
+                    <h2
+                        id="metric-vencidas"
+                        class="metric-value metric-overdue"
+                    >
+                        0
+                    </h2>
+
+                    <p class="metric-title">
+                        Vencidas 🔴
+                    </p>
+                </article>
+
+            </section>
+
+        </header>
+
+
+        <!-- =================================================
+             ACTIVIDADES VENCIDAS
+        ================================================== -->
+
+        <section
+            id="vencidos-box"
+            class="vencidos-container hidden"
+            aria-labelledby="titulo-vencidos"
+        >
+
+            <header
+                id="titulo-vencidos"
+                class="vencidos-title section-header"
+            >
+                <span aria-hidden="true">⚠️</span>
+                <span>Actividades vencidas / Atrasadas</span>
+            </header>
+
+
+            <div class="table-responsive">
+
+                <table class="data-table">
+
+                    <thead>
+                        <tr>
+                            <th class="col-check">Done</th>
+                            <th>Actividad</th>
+                            <th>Materia</th>
+                            <th>Tipo</th>
+                            <th>Prioridad</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tabla-vencidos-body">
+
+                        <tr>
+                            <td
+                                colspan="7"
+                                class="empty-message"
+                            >
+                                No hay actividades vencidas.
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             ACTIVIDADES NORMALES
+        ================================================== -->
+
+        <section
+            class="card"
+            aria-labelledby="titulo-pendientes"
+        >
+
+            <header class="section-header">
+
+                <h2 id="titulo-pendientes">
+                    Actividades pendientes
+                </h2>
+
+            </header>
+
+
+            <div class="table-responsive">
+
+                <table class="data-table">
+
+                    <thead>
+                        <tr>
+                            <th class="col-check">Done</th>
+                            <th>Actividad</th>
+                            <th>Materia</th>
+                            <th>Tipo</th>
+                            <th>Prioridad</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tabla-entregas-body">
+
+                        <tr>
+                            <td
+                                colspan="7"
+                                class="empty-message"
+                            >
+                                Cargando datos desde Notion...
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </section>
+
+
+    <!-- =====================================================
+         2. REGISTRAR ACTIVIDAD
+    ====================================================== -->
+
+    <section
+        id="nueva-actividad"
+        class="section"
+        aria-labelledby="titulo-nueva-actividad"
+    >
+
+        <header class="section-header">
+
+            <h1 id="titulo-nueva-actividad">
+                Registrar nueva actividad
+            </h1>
+
+        </header>
+
+
+        <section class="card">
+
+            <form id="form-actividad">
+
+                <fieldset>
+
+                    <legend>
+                        Información de la actividad
+                    </legend>
+
+
+                    <div class="form-group">
+
+                        <label for="actividad">
+                            Nombre de la Actividad / Tarea
+                        </label>
+
+                        <input
+                            type="text"
+                            id="actividad"
+                            class="form-control"
+                            placeholder="Ej: Taller de Fisiología Vegetal"
+                            autocomplete="off"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="materia">
+                            Materia / Asignatura
+                        </label>
+
+                        <input
+                            type="text"
+                            id="materia"
+                            class="form-control"
+                            placeholder="Ej: Fisiología"
+                            autocomplete="off"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="tipo">
+                            Tipo de Evaluación
+                        </label>
+
+                        <select
+                            id="tipo"
+                            class="form-control"
+                            required
+                        >
+
+                            <option value="Taller">
+                                Taller
+                            </option>
+
+                            <option value="Parcial">
+                                Parcial
+                            </option>
+
+                            <option value="Lectura">
+                                Lectura
+                            </option>
+
+                            <option value="Exposición">
+                                Exposición
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="fecha">
+                            Fecha de entrega
+                        </label>
+
+                        <input
+                            type="date"
+                            id="fecha"
+                            class="form-control"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="hora">
+                            Hora de entrega
+                        </label>
+
+                        <input
+                            type="time"
+                            id="hora"
+                            class="form-control"
+                            required
+                        >
+
+                    </div>
+
+                </fieldset>
+
+
+                <fieldset>
+
+                    <legend>
+                        Configuración
+                    </legend>
+
+
+                    <div class="form-group">
+
+                        <label for="importancia">
+                            Prioridad / Importancia
+                        </label>
+
+                        <select
+                            id="importancia"
+                            class="form-control"
+                            required
+                        >
+
+                            <option value="Alta">
+                                🔥 Alta (Parciales / Exposiciones)
+                            </option>
+
+                            <option
+                                value="Media"
+                                selected
+                            >
+                                ⚡ Media (Talleres / Entregas)
+                            </option>
+
+                            <option value="Baja">
+                                ☕ Baja (Lecturas / Tareas cortas)
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="esquema-repaso">
+                            Esquema de Repasos
+                            (Curva del Olvido)
+                        </label>
+
+                        <select
+                            id="esquema-repaso"
+                            class="form-control"
+                        >
+
+                            <option value="auto">
+                                🤖 Automático
+                                (Según tipo de evaluación)
+                            </option>
+
+                            <option value="4">
+                                🔥 Intensivo
+                                (4 repasos)
+                            </option>
+
+                            <option value="2">
+                                ⚡ Regular
+                                (2 repasos)
+                            </option>
+
+                            <option value="1">
+                                ☕ Ligero
+                                (1 repaso)
+                            </option>
+
+                            <option value="0">
+                                🚫 Sin repasos automáticos
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </fieldset>
+
+
+                <button
+                    type="submit"
+                    class="btn"
+                >
+                    Guardar en Notion 🚀
+                </button>
+
+            </form>
+
+        </section>
+
+    </section>
+
+
+    <!-- =====================================================
+         3. CALCULADORA DE NOTAS
+    ====================================================== -->
+
+    <section
+        id="materias"
+        class="section"
+        aria-labelledby="titulo-materias"
+    >
+
+        <header class="section-header">
+
+            <h1 id="titulo-materias">
+                Rendimiento académico
+            </h1>
+
+        </header>
+
+        <section class="card">
+
+            <p class="empty-message">
+                La calculadora de notas se implementará
+                posteriormente.
+            </p>
+
+        </section>
+
+    </section>
+
+
+    <!-- =====================================================
+         4. PROFESORES
+    ====================================================== -->
+
+    <section
+        id="profesores"
+        class="section"
+        aria-labelledby="titulo-profesores"
+    >
+
+        <header class="section-header">
+
+            <h1 id="titulo-profesores">
+                Evaluación de los docentes
+            </h1>
+
+        </header>
+
+        <section class="card">
+
+            <p class="empty-message">
+                El módulo de profesores se implementará
+                posteriormente.
+            </p>
+
+        </section>
+
+    </section>
+
+
+    <!-- =====================================================
+         5. HORARIO Y DISPONIBILIDAD
+    ====================================================== -->
+
+<section id="horario" class="section">
+
+    <header class="section-header">
+        <h1>Horario y disponibilidad de estudio</h1>
+        <p>
+            Administra tus horarios habituales y las disponibilidades
+            excepcionales que podrán utilizarse para planificar repasos.
+        </p>
+    </header>
+
+
+    <!-- =====================================================
+         HORARIOS RECURRENTES
+    ====================================================== -->
+
+    <section class="card">
+
+        <h3>📅 Horarios recurrentes</h3>
+
+        <p class="section-description">
+            Son los bloques de estudio que normalmente tienes
+            disponibles cada semana.
+        </p>
+
+
+        <fieldset>
+
+            <legend>
+                Disponibilidad semanal
+            </legend>
+
+
+            <form id="form-horario">
+
+                <div class="form-group">
+
+                    <label for="dia-semana">
+                        Día de la Semana
+                    </label>
+
+                    <select
+                        id="dia-semana"
+                        class="form-control"
+                        required
+                    >
+
+                        <option value="Lunes">
+                            Lunes
+                        </option>
+
+                        <option value="Martes">
+                            Martes
+                        </option>
+
+                        <option value="Miércoles">
+                            Miércoles
+                        </option>
+
+                        <option value="Jueves">
+                            Jueves
+                        </option>
+
+                        <option value="Viernes">
+                            Viernes
+                        </option>
+
+                        <option value="Sábado">
+                            Sábado
+                        </option>
+
+                        <option value="Domingo">
+                            Domingo
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="hora-inicio">
+                        Hora de Inicio
+                    </label>
+
+                    <input
+                        type="time"
+                        id="hora-inicio"
+                        class="form-control"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="hora-fin">
+                        Hora de Fin
+                    </label>
+
+                    <input
+                        type="time"
+                        id="hora-fin"
+                        class="form-control"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn"
+                >
+                    Guardar Bloque 📌
+                </button>
+
+            </form>
+
+        </fieldset>
+
+
+        <h3>
+            Bloques registrados
+        </h3>
+
+
+        <div class="table-responsive">
+
+            <table class="data-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Día</th>
+                        <th>Hora Inicio</th>
+                        <th>Hora Fin</th>
+                        <th>Tipo</th>
+                        <th>Acción</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="tabla-horarios-body">
+
+                    <tr>
+
+                        <td
+                            colspan="5"
+                            class="empty-message"
+                        >
+                            No has registrado bloques
+                            de disponibilidad aún.
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         DISPONIBILIDAD TEMPORAL
+    ====================================================== -->
+
+    <section class="card">
+
+        <h3>
+            ➕ Disponibilidad temporal
+        </h3>
+
+        <p class="section-description">
+
+            Agrega un bloque disponible únicamente para
+            una fecha concreta. Por ejemplo, si se cancela
+            una clase y tienes tiempo adicional para estudiar.
+
+        </p>
+
+
+        <fieldset>
+
+            <legend>
+                Nuevo bloque temporal
+            </legend>
+
+
+            <form id="form-disponibilidad-temporal">
+
+
+                <div class="form-group">
+
+                    <label for="fecha-disponibilidad">
+                        Fecha
+                    </label>
+
+                    <input
+                        type="date"
+                        id="fecha-disponibilidad"
+                        class="form-control"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="hora-temporal-inicio">
+                        Hora de Inicio
+                    </label>
+
+                    <input
+                        type="time"
+                        id="hora-temporal-inicio"
+                        class="form-control"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="hora-temporal-fin">
+                        Hora de Fin
+                    </label>
+
+                    <input
+                        type="time"
+                        id="hora-temporal-fin"
+                        class="form-control"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn"
+                >
+                    Agregar disponibilidad ➕
+                </button>
+
+
+            </form>
+
+        </fieldset>
+
+
+        <h3>
+            Disponibilidad adicional registrada
+        </h3>
+
+
+        <div class="table-responsive">
+
+            <table class="data-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Hora Inicio</th>
+                        <th>Hora Fin</th>
+                        <th>Tipo</th>
+                        <th>Acción</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody
+                    id="tabla-disponibilidad-temporal-body"
+                >
+
+                    <tr>
+
+                        <td
+                            colspan="5"
+                            class="empty-message"
+                        >
+                            No hay disponibilidades
+                            temporales registradas.
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         EXCEPCIONES
+    ====================================================== -->
+
+    <section class="card">
+
+        <h3>
+            🚫 Excepciones de disponibilidad
+        </h3>
+
+        <p class="section-description">
+
+            Permite cancelar un horario recurrente para una
+            fecha específica sin eliminarlo permanentemente.
+
+        </p>
+
+
+        <fieldset>
+
+            <legend>
+                Cancelar bloque recurrente
+            </legend>
+
+
+            <form id="form-excepcion-horario">
+
+
+                <div class="form-group">
+
+                    <label for="horario-excepcion">
+                        Bloque recurrente
+                    </label>
+
+                    <select
+                        id="horario-excepcion"
+                        class="form-control"
+                        required
+                    >
+
+                        <option value="">
+                            Selecciona un bloque...
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="fecha-excepcion">
+                        Fecha de cancelación
+                    </label>
+
+                    <input
+                        type="date"
+                        id="fecha-excepcion"
+                        class="form-control"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-danger"
+                >
+                    Cancelar disponibilidad 🚫
+                </button>
+
+
+            </form>
+
+        </fieldset>
+
+
+        <h3>
+            Excepciones registradas
+        </h3>
+
+
+        <div class="table-responsive">
+
+            <table class="data-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Horario</th>
+                        <th>Tipo</th>
+                        <th>Acción</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody
+                    id="tabla-excepciones-body"
+                >
+
+                    <tr>
+
+                        <td
+                            colspan="4"
+                            class="empty-message"
+                        >
+                            No hay excepciones registradas.
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+</section>
+
+
+    <!-- =====================================================
+         6. CRONOGRAMA DE REPASOS
+    ====================================================== -->
+
+    <section
+        id="cronograma-repasos"
+        class="section"
+        aria-labelledby="titulo-cronograma"
+    >
+
+        <header class="section-header">
+
+            <h1 id="titulo-cronograma">
+                Cronograma de repasos
+            </h1>
+
+        </header>
+
+
+        <div class="table-responsive">
+
+            <table class="data-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Estado</th>
+                        <th>Sesión de Repaso</th>
+                        <th>Fecha Programada</th>
+                        <th>Bloque Asignado</th>
+                        <th>Acción</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="tabla-cronograma-body">
+
+                    <tr>
+
+                        <td
+                            colspan="5"
+                            class="empty-message"
+                        >
+                            No hay sesiones de repaso generadas aún.
+                            Registra una actividad con esquema
+                            de repaso.
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script src="js/config/config.js"></script>
+<script src="js/utils/utils.js"></script>
+<script src="js/services/api.js"></script>
+
+<script src="js/modules/ui.js"></script>
+<script src="js/modules/entregas.js"></script>
+
+<script src="js/modules/horario.js"></script>
+
+<script src="js/modules/disponibilidad.js"></script>
+<script src="js/modules/disponibilidad-ui.js"></script>
+
+<script src="js/modules/repaso.js"></script>
+<script src="js/modules/app.js"></script>
+
+</body>
+</html>

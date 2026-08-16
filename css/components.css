@@ -1,0 +1,525 @@
+.sidebar {
+    background: var(--sidebar-bg);
+    border-bottom: 1px solid var(--border-color);
+    padding: var(--space-md);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    margin-bottom: var(--space-lg);
+    color: var(--accent-color);
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.nav-links {
+    display: flex;
+    gap: .5rem;
+    overflow-x: auto;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .9rem 1rem;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: var(--transition);
+    user-select: none;
+}
+
+.nav-item:hover {
+    background: var(--card-bg);
+    color: var(--text-main);
+}
+
+.nav-item.active {
+    background: var(--card-bg);
+    color: var(--text-main);
+    border-left: 4px solid var(--accent-color);
+}
+
+.section-header {
+    margin-bottom: var(--space-lg);
+}
+
+.section-header h1 {
+    margin-bottom: .4rem;
+}
+
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: var(--space-lg);
+    transition: var(--transition);
+}
+
+.card:hover {
+    border-color: var(--accent-color);
+}
+
+fieldset {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+legend {
+    padding: 0 .6rem;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: .5rem;
+    color: var(--text-muted);
+}
+
+.form-control {
+    width: 100%;
+    padding: .8rem;
+    background: var(--bg-color);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+.btn {
+    display: inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:.5rem;
+    width:100%;
+    padding:.85rem 1.25rem;
+    border:none;
+    border-radius:var(--radius-md);
+    background:var(--accent-color);
+    color:var(--bg-color);
+    font-weight:600;
+    cursor:pointer;
+    transition:var(--transition);
+}
+
+.btn:hover{
+    filter:brightness(1.08);
+}
+
+.btn:active{
+    transform:scale(.98);
+}
+
+.btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+.btn-action{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:.45rem .75rem;
+    background:transparent;
+    color:var(--text-main);
+    border:1px solid var(--border-color);
+    border-radius:var(--radius-sm);
+    cursor:pointer;
+    transition:var(--transition);
+}
+
+.btn-action:hover{
+    background:var(--border-color);
+}
+
+.btn-reschedule{
+    border-color:var(--warning);
+    color:var(--warning);
+}
+
+.btn-reschedule:hover{
+    background:rgba(234,179,8,.15);
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card-bg);
+    min-width: 650px;
+}
+
+.data-table thead {
+    background: rgba(255, 255, 255, .03);
+}
+
+.data-table th{
+    padding:1rem;
+    text-align:left;
+    color:var(--text-muted);
+    font-size:.85rem;
+    font-weight:600;
+    text-transform:uppercase;
+    border-bottom:1px solid var(--border-color);
+}
+
+.data-table td{
+    padding:1rem;
+    border-bottom:1px solid var(--border-color);
+}
+
+.data-table tbody tr{
+    transition:var(--transition);
+}
+
+.data-table tbody tr:hover{
+    background:rgba(255,255,255,.03);
+}
+
+.row-completed{
+    opacity:.45;
+    text-decoration:line-through;
+}
+
+.check-btn{
+    width:18px;
+    height:18px;
+    cursor:pointer;
+    accent-color:var(--success);
+}
+
+.empty-message{
+    text-align:center;
+    color:var(--text-muted);
+    padding:2rem;
+}
+
+.table-responsive{
+    width:100%;
+    overflow-x:auto;
+    border:1px solid var(--border-color);
+    border-radius:var(--radius-md);
+}
+
+.vencidos-container{
+    margin-bottom:var(--space-lg);
+    padding:var(--space-lg);
+    border-radius:var(--radius-lg);
+    border:1px solid var(--danger);
+    background:rgba(239,68,68,.08);
+}
+
+.vencidos-title{
+    display:flex;
+    align-items:center;
+    gap:.6rem;
+    margin-bottom:1rem;
+    color:var(--danger);
+    font-weight:700;
+}
+
+.metrics-grid {
+    display: grid;
+    gap: var(--space-md);
+}
+
+.metric-card {
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    transition: var(--transition);
+}
+
+.metric-card:hover {
+    border-color: var(--accent-color);
+    transform: translateY(-3px);
+}
+
+.metric-card:active {
+    transform: translateY(0);
+}
+
+.metric-value {
+     font-size:2rem;
+    font-weight:700;
+    line-height:1.2;
+    margin-bottom:.25rem;
+}
+
+.metric-title {
+    color: var(--text-muted);
+    font-size: .9rem;
+}
+
+.metric-urgent {
+    color: var(--danger);
+}
+
+.metric-high {
+    color: var(--warning);
+}
+
+.metric-overdue {
+    color: var(--danger);
+}
+
+.status-badge {
+    display:inline-flex;
+    align-items:center;
+    gap:.35rem;
+    padding:.35rem .75rem;
+    border-radius:999px;
+    font-size:.8rem;
+    font-weight:600;
+    white-space:nowrap;
+    border:1px solid transparent;
+}
+
+.semaforo-rojo {
+    color:var(--danger);
+    background:rgba(239,68,68,.12);
+    border-color:rgba(239,68,68,.30);
+}
+
+.semaforo-amarillo {
+    color:var(--warning);
+    background:rgba(234,179,8,.12);
+    border-color:rgba(234,179,8,.30);
+}
+
+.semaforo-verde {
+    color:var(--success);
+    background:rgba(34,197,94,.12);
+    border-color:rgba(34,197,94,.30);
+}
+
+.badge-tipo {
+    display:inline-flex;
+    align-items:center;
+    padding:.3rem .65rem;
+    border-radius:var(--radius-sm);
+    background:rgba(56,189,248,.12);
+    color:var(--accent-color);
+    font-size:.8rem;
+}
+
+::-webkit-scrollbar {
+    width:8px;
+    height:8px;
+}
+
+::-webkit-scrollbar-track {
+    background:var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background:var(--border-color);
+    border-radius:999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background:var(--accent-color);
+}
+
+::selection {
+    background:var(--accent-color);
+    color:var(--bg-color);
+}
+
+/* =============================================================
+ELEMENTOS DE NAVEGACIÓN
+============================================================= */
+
+.nav-item:focus-visible {
+outline: 2px solid var(--accent-color);
+outline-offset: 2px;
+}
+
+/* =============================================================
+CELDA DE ACCIONES
+============================================================= */
+
+.actions-cell {
+
+display: flex;
+align-items: center;
+gap: .5rem;
+white-space: nowrap;
+}
+
+/* =============================================================
+COLUMNA DE CHECKBOX
+============================================================= */
+
+.col-check {
+width: 70px;
+text-align: center;
+
+}
+
+/* =============================================================
+MENSAJES DE TABLA
+============================================================= */
+
+.table-message {
+text-align: center;
+color: var(--text-muted);
+padding: 2rem;
+}
+
+.table-message.error {
+color: var(--danger);
+}
+
+/* =============================================================
+TÍTULOS SECUNDARIOS
+============================================================= */
+
+.card > h2 {
+margin-bottom: var(--space-md);
+}
+
+/* =============================================================
+ELEMENTOS DE PRIORIDAD
+============================================================= */
+
+.prio-badge {
+display: inline-flex;
+align-items: center;
+gap: .35rem;
+padding: .3rem .65rem;
+border-radius: var(--radius-sm);
+font-size: .8rem;
+font-weight: 600;
+white-space: nowrap;
+
+}
+
+.prio-p1 {
+color: var(--danger);
+
+background:
+    rgba(239, 68, 68, .12);
+
+border:
+    1px solid rgba(239, 68, 68, .30);
+}
+
+.prio-p2 {
+color: var(--warning);
+
+background:
+    rgba(234, 179, 8, .12);
+
+border:
+    1px solid rgba(234, 179, 8, .30);
+}
+
+.prio-p4 {
+color: var(--text-muted);
+
+background:
+    rgba(148, 163, 184, .10);
+
+border:
+    1px solid rgba(148, 163, 184, .20);
+}
+
+/* =========================================================
+   DISPONIBILIDAD DINÁMICA
+========================================================= */
+
+.section-description {
+    margin-bottom: var(--space-md);
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+
+.btn-danger {
+    background: var(--danger);
+    color: var(--text-main);
+}
+
+
+.btn-danger:hover {
+    filter: brightness(1.08);
+}
+
+
+.availability-type {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .3rem .65rem;
+    border-radius: var(--radius-sm);
+    font-size: .8rem;
+    font-weight: 600;
+}
+
+
+.availability-recurrent {
+    color: var(--accent-color);
+    background: rgba(56, 189, 248, .12);
+}
+
+
+.availability-temporal {
+    color: var(--success);
+    background: rgba(34, 197, 94, .12);
+}
+
+
+.availability-cancelled {
+    color: var(--danger);
+    background: rgba(239, 68, 68, .12);
+}
+
+
+.btn-delete {
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+
+.btn-delete:hover {
+    background: rgba(239, 68, 68, .15);
+}
+
+
+.exception-row {
+    opacity: .85;
+}
+
+
+@media (min-width: 768px) {
+
+    #horario .card {
+        max-width: 100%;
+    }
+
+}
+
+
+@media (min-width: 1024px) {
+
+    #horario .card {
+        max-width: 1100px;
+    }
+
+}
