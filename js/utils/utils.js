@@ -28,28 +28,59 @@ function formatearUuid(uuid) {
 }
 
 
-/**
- * Combina una fecha y una hora.
- *
- * Ejemplo:
- * combinarFechaHora("2026-08-10", "14:30")
- * → "2026-08-10T14:30"
- */
 function combinarFechaHora(fecha, hora) {
 
     if (!fecha) {
         return null;
     }
 
-    const horaFinal = hora || "00:00";
+    const horaFinal =
+        hora || "00:00";
 
-    return `${fecha}T${horaFinal}`;
+    const fechaHora =
+        `${fecha}T${horaFinal}:00`;
+
+    const fechaObjeto =
+        new Date(fechaHora);
+
+    if (
+        Number.isNaN(
+            fechaObjeto.getTime()
+        )
+    ) {
+        return null;
+    }
+
+    const offsetMinutos =
+        -fechaObjeto.getTimezoneOffset();
+
+    const signo =
+        offsetMinutos >= 0
+            ? "+"
+            : "-";
+
+    const horasOffset =
+        String(
+            Math.floor(
+                Math.abs(offsetMinutos) / 60
+            )
+        ).padStart(
+            2,
+            "0"
+        );
+
+    const minutosOffset =
+        String(
+            Math.abs(offsetMinutos) % 60
+        ).padStart(
+            2,
+            "0"
+        );
+
+    return (
+        `${fechaHora}${signo}${horasOffset}:${minutosOffset}`
+    );
 }
-
-
-
-
-
 
 /**
  * Determina si una fecha ya venció.

@@ -4563,13 +4563,3 @@ if (
         regenerarRepasosSeguro;
 
 }
-
-if (
-    typeof window !==
-    "undefined"
-) {
-
-    window.regenerarRepasosSeguro =
-        regenerarRepasosSeguro;
-
-}

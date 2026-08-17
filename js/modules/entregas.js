@@ -594,26 +594,71 @@ async function reprogramarTarea(
 
     try {
 
-        await actualizarFechaEntrega(
-            pageId,
-            fechaFinal
-        );
+
+    await actualizarFechaEntrega(
+        pageId,
+        fechaFinal
+    );
 
 
-        const entregasActualizadas =
-            await cargarEntregas();
 
 
-        await regenerarRepasosSeguro(
-            entregasActualizadas
-        );
+    /*
+     * La fecha de entrega cambió.
+     *
+     * Los repasos pendientes existentes fueron
+     * calculados con la fecha anterior.
+     *
+     * Se eliminan únicamente los pendientes
+     * de esta actividad.
+     *
+     * Los completados se conservan como historial.
+     */
+    if (
+        Array.isArray(
+            estadoRepasos.sesiones
+        )
+    ) {
 
 
-        alert(
-            "Actividad reprogramada correctamente."
-        );
+        estadoRepasos.sesiones =
+            estadoRepasos.sesiones.filter(
+                sesion =>
+                    String(
+                        sesion.actividadId
+                    ) !== String(pageId) ||
+                    sesion.estado ===
+                    "completado"
+            );
 
-    } catch (error) {
+
+        guardarSesionesRepaso();
+
+
+    }
+
+
+
+
+    const entregasActualizadas =
+        await cargarEntregas();
+
+
+
+
+    await regenerarRepasosSeguro(
+        entregasActualizadas
+    );
+
+
+
+
+    alert(
+        "Actividad reprogramada correctamente."
+    );
+
+
+} catch (error) {
 
         console.error(
             "Error al reprogramar la actividad:",
