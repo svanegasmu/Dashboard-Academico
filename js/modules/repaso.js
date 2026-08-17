@@ -2987,10 +2987,9 @@ function fusionarSesiones(
             }
 
 
-            const duplicada =
-                resultado.some(
+            const indiceExistente =
+                resultado.findIndex(
                     existente =>
-
                         String(
                             existente.actividadId
                         ) ===
@@ -3008,14 +3007,45 @@ function fusionarSesiones(
 
 
             if (
-                !duplicada
+                indiceExistente === -1
             ) {
 
                 resultado.push(
                     nueva
                 );
 
+                return;
+
             }
+
+
+            const existente =
+                resultado[
+                    indiceExistente
+                ];
+
+
+            /*
+             * Nunca reemplazar el historial completado.
+             */
+            if (
+                existente.estado ===
+                "completado"
+            ) {
+
+                return;
+
+            }
+
+
+            /*
+             * Si la sesión existente está pendiente,
+             * la nueva planificación representa el
+             * cronograma vigente y debe sustituirla.
+             */
+            resultado[
+                indiceExistente
+            ] = nueva;
 
         }
     );

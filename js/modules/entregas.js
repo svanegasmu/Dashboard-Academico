@@ -594,32 +594,29 @@ async function reprogramarTarea(
 
     try {
 
-
     await actualizarFechaEntrega(
         pageId,
         fechaFinal
     );
 
 
-
-
     /*
      * La fecha de entrega cambió.
      *
-     * Los repasos pendientes existentes fueron
-     * calculados con la fecha anterior.
+     * Las sesiones pendientes de esta actividad
+     * fueron calculadas con la fecha anterior.
      *
-     * Se eliminan únicamente los pendientes
-     * de esta actividad.
+     * Se eliminan únicamente esas sesiones.
      *
-     * Los completados se conservan como historial.
+     * Las sesiones completadas permanecen como
+     * historial y siguen sirviendo como referencia
+     * para los repasos posteriores.
      */
     if (
         Array.isArray(
             estadoRepasos.sesiones
         )
     ) {
-
 
         estadoRepasos.sesiones =
             estadoRepasos.sesiones.filter(
@@ -634,16 +631,11 @@ async function reprogramarTarea(
 
         guardarSesionesRepaso();
 
-
     }
-
-
 
 
     const entregasActualizadas =
         await cargarEntregas();
-
-
 
 
     await regenerarRepasosSeguro(
@@ -651,12 +643,9 @@ async function reprogramarTarea(
     );
 
 
-
-
     alert(
         "Actividad reprogramada correctamente."
     );
-
 
 } catch (error) {
 

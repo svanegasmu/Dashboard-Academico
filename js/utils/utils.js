@@ -28,36 +28,87 @@ function formatearUuid(uuid) {
 }
 
 
-function combinarFechaHora(fecha, hora) {
+function combinarFechaHora(
+    fecha,
+    hora
+) {
 
-    if (!fecha) {
+    if (
+        typeof fecha !== "string" ||
+        !/^\d{4}-\d{2}-\d{2}$/.test(fecha)
+    ) {
         return null;
     }
+
 
     const horaFinal =
         hora || "00:00";
 
-    const fechaHora =
-        `${fecha}T${horaFinal}:00`;
 
-    const fechaObjeto =
-        new Date(fechaHora);
+    if (
+        !/^\d{2}:\d{2}$/.test(horaFinal)
+    ) {
+        return null;
+    }
+
+
+    const [
+        horas,
+        minutos
+    ] =
+        horaFinal
+            .split(":")
+            .map(Number);
+
+
+    if (
+        horas < 0 ||
+        horas > 23 ||
+        minutos < 0 ||
+        minutos > 59
+    ) {
+        return null;
+    }
+
+
+    /*
+     * La fecha de entrega representa la hora local
+     * introducida por el usuario.
+     *
+     * Se conserva explícitamente el offset local
+     * para evitar que el navegador/Notion interprete
+     * la fecha en UTC y produzca un desfase de día.
+     */
+    const fechaLocal =
+        new Date(
+            Number(fecha.substring(0, 4)),
+            Number(fecha.substring(5, 7)) - 1,
+            Number(fecha.substring(8, 10)),
+            horas,
+            minutos,
+            0,
+            0
+        );
+
 
     if (
         Number.isNaN(
-            fechaObjeto.getTime()
+            fechaLocal.getTime()
         )
     ) {
         return null;
     }
 
+
     const offsetMinutos =
-        -fechaObjeto.getTimezoneOffset();
+        -fechaLocal.getTimezoneOffset();
+
 
     const signo =
         offsetMinutos >= 0
             ? "+"
             : "-";
+
 
     const horasOffset =
         String(
@@ -69,6 +120,7 @@ function combinarFechaHora(fecha, hora) {
             "0"
         );
 
+
     const minutosOffset =
         String(
             Math.abs(offsetMinutos) % 60
@@ -77,9 +129,12 @@ function combinarFechaHora(fecha, hora) {
             "0"
         );
 
+
     return (
-        `${fechaHora}${signo}${horasOffset}:${minutosOffset}`
+        `${fecha}T${horaFinal}:00` +
+        `${signo}${horasOffset}:${minutosOffset}`
     );
+
 }
 
 /**
