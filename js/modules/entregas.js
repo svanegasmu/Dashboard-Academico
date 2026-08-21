@@ -594,60 +594,128 @@ async function reprogramarTarea(
 
     try {
 
-    await actualizarFechaEntrega(
-        pageId,
-        fechaFinal
-    );
+        /*
+         * Conservar un conjunto local válido antes de modificar
+         * las sesiones. estadoRepasos.actividades contiene el
+         * último conjunto utilizado correctamente por el motor.
+         */
+        let entregasLocales =
+            null;
 
 
-    /*
-     * La fecha de entrega cambió.
-     *
-     * Las sesiones pendientes de esta actividad
-     * fueron calculadas con la fecha anterior.
-     *
-     * Se eliminan únicamente esas sesiones.
-     *
-     * Las sesiones completadas permanecen como
-     * historial y siguen sirviendo como referencia
-     * para los repasos posteriores.
-     */
-    if (
-        Array.isArray(
-            estadoRepasos.sesiones
-        )
-    ) {
+        if (
+            Array.isArray(
+                estadoRepasos.actividades
+            ) &&
+            estadoRepasos.ultimaGeneracion !== null
+        ) {
 
-        estadoRepasos.sesiones =
-            estadoRepasos.sesiones.filter(
-                sesion =>
-                    String(
-                        sesion.actividadId
-                    ) !== String(pageId) ||
-                    sesion.estado ===
-                    "completado"
+            entregasLocales =
+                estadoRepasos.actividades.map(
+                    entrega => {
+
+                        if (
+                            String(
+                                entrega.id
+                            ) === String(pageId)
+                        ) {
+
+                            return {
+                                ...entrega,
+                                fechaEntrega:
+                                    fechaFinal
+                            };
+
+                        }
+
+
+                        return {
+                            ...entrega
+                        };
+
+                    }
+                );
+
+        }
+
+
+        await actualizarFechaEntrega(
+            pageId,
+            fechaFinal
+        );
+
+
+        /*
+         * Primero intentamos obtener el conjunto actualizado
+         * desde Notion. Si la carga falla, reutilizamos el
+         * conjunto local ya válido y solamente actualizamos
+         * la fecha de la actividad reprogramada.
+         *
+         * Nunca convertimos null en [].
+         */
+        const entregasCargadas =
+            await cargarEntregas();
+
+
+        const entregasActualizadas =
+            Array.isArray(
+                entregasCargadas
+            )
+                ? entregasCargadas
+                : entregasLocales;
+
+
+        if (
+            !Array.isArray(
+                entregasActualizadas
+            )
+        ) {
+
+            throw new Error(
+                "No fue posible obtener un conjunto válido de entregas para regenerar los repasos."
             );
 
-
-        guardarSesionesRepaso();
-
-    }
+        }
 
 
-    const entregasActualizadas =
-        await cargarEntregas();
+        /*
+         * Solo después de disponer de datos válidos se
+         * invalidan los repasos pendientes calculados con
+         * la fecha anterior. El historial completado se
+         * conserva.
+         */
+        if (
+            Array.isArray(
+                estadoRepasos.sesiones
+            )
+        ) {
+
+            estadoRepasos.sesiones =
+                estadoRepasos.sesiones.filter(
+                    sesion =>
+                        String(
+                            sesion.actividadId
+                        ) !== String(pageId) ||
+                        sesion.estado ===
+                        "completado"
+                );
 
 
-    await regenerarRepasosSeguro(
-        entregasActualizadas
-    );
+            guardarSesionesRepaso();
+
+        }
 
 
-    alert(
-        "Actividad reprogramada correctamente."
-    );
+        await regenerarRepasosSeguro(
+            entregasActualizadas
+        );
 
-} catch (error) {
+
+        alert(
+            "Actividad reprogramada correctamente."
+        );
+
+    } catch (error) {
 
         console.error(
             "Error al reprogramar la actividad:",
@@ -680,11 +748,85 @@ async function completarYEliminar(
         return;
     }
 
+
     try {
 
     await archivarEntrega(
         pageId
     );
+
+
+    /*
+     * La actividad ya fue archivada correctamente en Notion.
+     * La invalidación de sus repasos pendientes debe ocurrir
+     * aquí y no depender de una regeneración posterior.
+     *
+     * El historial completado se conserva; únicamente se
+     * eliminan las sesiones pendientes de esta actividad.
+     */
+    if (
+    Array.isArray(
+        estadoRepasos.sesiones
+    )
+) {
+
+    const actividadId =
+        formatearUuid(
+            String(pageId)
+        );
+
+
+    estadoRepasos.sesiones =
+        estadoRepasos.sesiones.filter(
+            sesion => {
+
+                if (!sesion) {
+                    return false;
+                }
+
+
+                /*
+                 * El historial completado se conserva.
+                 */
+                if (
+                    sesion.estado ===
+                    "completado"
+                ) {
+                    return true;
+                }
+
+
+                /*
+                 * Comparar ambos identificadores
+                 * utilizando la misma normalización UUID.
+                 */
+                const sesionActividadId =
+                    formatearUuid(
+                        String(
+                            sesion.actividadId
+                        )
+                    );
+
+
+                /*
+                 * Si pertenece a la actividad archivada,
+                 * eliminar la sesión pendiente.
+                 *
+                 * Las sesiones de otras actividades
+                 * permanecen intactas.
+                 */
+                return (
+                    sesionActividadId !==
+                    actividadId
+                );
+
+            }
+        );
+
+
+    guardarSesionesRepaso();
+
+}
 
 
     const entregasActualizadas =
@@ -693,7 +835,6 @@ async function completarYEliminar(
         await regenerarRepasosSeguro(
             entregasActualizadas
         );
-
 
 
     alert(

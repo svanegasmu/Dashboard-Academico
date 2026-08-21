@@ -1642,7 +1642,22 @@ function buscarReasignacionSeguraParaPrimerRepaso(
     sesionesDesplazables.forEach(
         sesion => {
 
-            const bloque =
+            /*
+             * Resolver el bloque actual que
+             * representa el hueco de la sesión.
+             *
+             * 1. Coincidencia exacta por ID.
+             *    Los bloques temporales conservan
+             *    identidad estable entre generaciones.
+             *
+             * 2. Cobertura íntegra del intervalo.
+             *    Los IDs recurrentes se regeneran en
+             *    cada generación y no pueden coincidir
+             *    con un bloqueId persistido de una
+             *    generación anterior.
+             */
+
+            let bloque =
                 bloques.find(
                     item =>
                         String(
@@ -1652,6 +1667,65 @@ function buscarReasignacionSeguraParaPrimerRepaso(
                             sesion.bloqueId
                         )
                 );
+
+
+            if (
+                !bloque
+            ) {
+
+                const fechaSesion =
+                    convertirAFecha(
+                        sesion.fechaProgramada
+                    );
+
+
+                const fechaFinSesion =
+                    convertirAFecha(
+                        sesion.fechaFin
+                    );
+
+
+                if (
+                    fechaSesion &&
+                    fechaFinSesion
+                ) {
+
+                    bloque =
+                        bloques.find(
+                            item => {
+
+                                const inicioBloque =
+                                    convertirAFecha(
+                                        item.fechaInicio ??
+                                        item.inicio
+                                    );
+
+                                const finBloque =
+                                    convertirAFecha(
+                                        item.fechaFin ??
+                                        item.fin
+                                    );
+
+                                if (
+                                    !inicioBloque ||
+                                    !finBloque
+                                ) {
+                                    return false;
+                                }
+
+                                return (
+                                    inicioBloque <=
+                                    fechaSesion &&
+                                    finBloque >=
+                                    fechaFinSesion
+                                );
+
+                            }
+                        );
+
+                }
+
+            }
 
 
             if (
