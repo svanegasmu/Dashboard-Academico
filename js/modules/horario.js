@@ -866,8 +866,14 @@ function generarOcurrenciasDisponibilidad(
 
                         ocurrencias.push({
 
+                            /*
+                             * Identidad determinista:
+                             * misma fuente + misma fecha
+                             * => mismo ID entre generaciones.
+                             */
+
                             id:
-                                generarIdHorario(),
+                                `rec-${horario.id}-${formatearFechaISO(cursor)}`,
 
                             horarioId:
                                 horario.id,
